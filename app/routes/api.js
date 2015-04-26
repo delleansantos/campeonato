@@ -49,59 +49,79 @@ module.exports = function(express, app, User, jwt){
 
 	apiRoutes.post('/authenticate', function(req, res) {
 
-	  // find the user
-	  User.findOne({
-	    name: req.body.name
-	  }, function(err, user) {
 
-	    if (err) throw err;
+	console.log(req.body);
 
-	    if (!user) {
-	      res.json({ success: false, message: 'Authentication failed. User not found.' });
-	    } else if (user) {
+	var email 	= req.body.email;
+	var password = req.body.password;
 
 
-	    user.comparePassword(req.body.password, function(err, isMatch) {
-            if (err) throw err;
+		if (email && password){
 
 
-	          // check if password matches
-		      if (!isMatch) {
-		        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-		      } else {
+			// find the user
+			  User.findOne({
+			    email: email
+			  }, function(err, user) { 
 
-		        // if user is found and password is right
-		        // create a token
-		        var token = jwt.sign({
+			    if (err) throw err;
 
-		        	name : user.name,
-		        	userAgent: req.headers['user-agent']
+			    if (!user) {
+			      res.json({ success: false, message: 'Authentication failed. User not found.' });
+			    } else if (user) {
 
-		        }, app.get('superSecret'), {
-		          expiresInMinutes: 1440 // expires in 24 hours
+
+			    user.comparePassword(password, function(err, isMatch) {
+		            if (err) throw err;
+
+
+			          // check if password matches
+				      if (!isMatch) {
+				        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+				      } else {
+
+				        // if user is found and password is right
+				        // create a token
+				        var token = jwt.sign({
+
+				        	name : user.name,
+				        	userAgent: req.headers['user-agent']
+
+				        }, app.get('superSecret'), {
+				          expiresInMinutes: 1440 // expires in 24 hours
+				        });
+
+				        //SALVA O TOKEN NO BANCO
+				        user.lastToken = token;
+				        user.save(function(err) {
+		    				if (err) throw err;
+
+						})
+
+				        // return the information including token as JSON
+				        res.json({
+				          success: true,
+				          message: 'Enjoy your token!',
+				          token: token
+				        });
+				      } 
+
+
 		        });
 
-		        //SALVA O TOKEN NO BANCO
-		        user.lastToken = token;
-		        user.save(function(err) {
-    				if (err) throw err;
+			    }
 
-				})
-
-		        // return the information including token as JSON
-		        res.json({
-		          success: true,
-		          message: 'Enjoy your token!',
-		          token: token
-		        });
-		      } 
+			  });
 
 
-        });
+		} else {
 
-	    }
+			res.json({ success: false, message: 'authenticate Fail' });
 
-	  });
+		};
+
+	 
+
 	});
 
 	apiRoutes.use(function(req, res, next) {

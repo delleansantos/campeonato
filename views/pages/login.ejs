@@ -1,0 +1,33 @@
+<% include ../includes/header.ejs %>
+
+	<form action="/api/authenticate/" method="POST">
+		<div class="row">
+			<div class="large-12 columns">
+				<label>Usuário:
+		        <input type="text" name="email" placeholder="" />
+		      </label>
+			</div>
+			<!-- /.large-12 columns -->
+		</div>
+		<!-- /.row -->
+		<div class="row">
+			<div class="large-12 columns">
+				<label>Senha:
+		        	<input type="password" name="password" placeholder="" />
+		    	</label>
+			</div>
+			<!-- /.large-12 columns -->
+		</div>
+		<!-- /.row -->
+		<div class="row">
+			<div class="large-12 columns">
+				<input type="submit" class="button expand" value="Entrar">
+			</div>
+			<!-- /.large-12 columns -->
+		</div>
+		<!-- /.row -->
+	</form>
+
+	
+		
+<% include ../includes/footer.ejs %>
