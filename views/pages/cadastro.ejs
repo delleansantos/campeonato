@@ -1,0 +1,81 @@
+<% include ../includes/header.ejs %>
+
+
+	<%if (erros.length > 0) { %>
+		
+		<div data-alert class="alert-box secondary">
+		
+			<% for(var i=0; i<erros.length; i++) {%>
+			   <p><%= erros[i] %></p>
+			<% } %>
+
+		  <a href="#" class="close">&times;</a>
+		</div>
+
+	<% } %>
+
+	<div class="main container-cadastro">
+		<form action="/api/cadastro" class="ui form" method="POST">
+			<div class="two fields">
+				<div class="field">
+					<label for="">Nome:</label>
+					<input type="text" name="nome" placeholder="seu nome completo">
+				</div><!-- .field -->
+				<div class="field">
+					<label for="">Nick:</label>
+					<div class="ui icon input">
+						<input type="text" name="nick" placeholder="Nick / Usuário">
+						<i class="user icon"></i>
+					</div>
+					<!-- /.ui icon input -->
+				</div><!-- .field -->
+			</div><!-- .two fields -->
+
+			<div class="two fields">
+				<div class="field">
+					<label for="">Email:</label>
+					<div class="ui icon input">
+						<input type="text" name="email" placeholder="exemplo@email.com">
+						<i class="mail outline icon"></i>
+					</div>
+					<!-- /.ui icon input -->
+				</div>
+				<!-- /.field -->
+				<div class="field">
+					<label for="">Repita o email:</label>
+					<div class="ui icon input">
+						<input type="text" name="email-repetido" placeholder="exemplo@email.com">
+						<i class="mail outline icon"></i>
+					</div>
+					<!-- /.ui icon input -->
+				</div>
+				<!-- /.field -->
+			</div>
+			<!-- /.two fields -->
+
+			<div class="two fields">
+				<div class="field">
+					<label for="">Senha:</label>
+					<div class="ui icon input"><input type="password" name="password"><i class="lock icon"></i></div>
+					<!-- /.icon input -->
+				</div>
+				<!-- /.field -->
+				<div class="field">
+					<label for="">Repita a senha:</label>
+					<div class="ui icon input"><input type="password" name="password-repetido"><i class="lock icon"></i></div>
+					<!-- /.icon input -->
+				</div>
+				<!-- /.field -->
+			</div>
+			<!-- /.two fields -->
+
+			<div class="field">
+				<input type="submit" class="ui fluid blue button" value="Cadastrar">
+			</div><!--.field-->
+
+		</form>
+	</div>
+	<!-- /.main container-cadastro -->
+
+	
+<% include ../includes/footer.ejs %>

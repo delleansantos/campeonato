@@ -14,7 +14,7 @@ module.exports = function(express, app, User, jwt){
 			name: req.body.nome,
 			nick: req.body.nick,
 			email: req.body.email,
-			password: req.body.senha
+			password: req.body.password
 
 		})
 
@@ -35,12 +35,11 @@ module.exports = function(express, app, User, jwt){
 				};
 
 				console.log(msgErro);
-				res.render('pages/index', { erros:  msgErro });
+				res.render('pages/cadastro',{ erros: msgErro });
 
 			} else {
 
-				res.redirect('back');
-
+				res.render('pages/login');
 			};
 
 		})
@@ -99,11 +98,15 @@ module.exports = function(express, app, User, jwt){
 						})
 
 				        // return the information including token as JSON
-				        res.json({
+				       /* res.json({
 				          success: true,
 				          message: 'Enjoy your token!',
 				          token: token
-				        });
+				        });*/
+
+
+			    		res.render('pages/profile',{ token: token, user: user});
+
 				      } 
 
 

@@ -15,7 +15,8 @@ var UsuarioSchema = new Schema({
     grupos: [{ nome: { type: String, required: true  }, adm: Boolean  }],
     password: { type: String, required: true }, 
     criadoEm: { type: Date, default: Date.now },
-    lastToken: { type: String, default: ''}
+    lastToken: { type: String, default: ''},
+    emailToken: { type: String, default: ''}
 
 });
 

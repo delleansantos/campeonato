@@ -4,13 +4,19 @@ module.exports = function(express){
 
 	siteApi.get('/cadastro',function(req, res) {
 
-		res.render('pages/index',{ erros:[]});
+		res.render('pages/cadastro',{ erros:[]});
 
 	});
 
 	siteApi.get('/login',function(req, res){
 
 		res.render('pages/login');
+
+	});
+
+	siteApi.get('/profile',function(req, res){
+
+		res.render('pages/profile');
 
 	});
 

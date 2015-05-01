@@ -1,33 +1,44 @@
 <% include ../includes/header.ejs %>
-
-	<form action="/api/authenticate/" method="POST">
-		<div class="row">
-			<div class="large-12 columns">
-				<label>Usuário:
-		        <input type="text" name="email" placeholder="" />
-		      </label>
-			</div>
-			<!-- /.large-12 columns -->
-		</div>
-		<!-- /.row -->
-		<div class="row">
-			<div class="large-12 columns">
-				<label>Senha:
-		        	<input type="password" name="password" placeholder="" />
-		    	</label>
-			</div>
-			<!-- /.large-12 columns -->
-		</div>
-		<!-- /.row -->
-		<div class="row">
-			<div class="large-12 columns">
-				<input type="submit" class="button expand" value="Entrar">
-			</div>
-			<!-- /.large-12 columns -->
-		</div>
-		<!-- /.row -->
-	</form>
-
 	
-		
+	<div class="main container-login">
+		<form class="ui form" action="/api/authenticate/" method="POST">
+			
+			<div class="field">
+				<label>Usuário:</label>
+				<div class="ui icon input">
+					 <input type="text" name="email" placeholder="seu nick ou seu email" />
+					 <i class="user icon"></i>
+				</div>
+				<!-- /.icon input -->
+			</div>
+			<!-- /.field -->
+
+			<div class="field">
+				<label>Senha:</label>
+				<div class="ui icon input">
+					<input type="password" name="password" placeholder="" />
+					<i class="lock icon"></i>
+				</div>
+				<!-- /.ui icon input --> 	
+			</div>
+			<!-- /.fiel -->
+			<div class="field">
+				<input type="submit" class="fluid positive ui button" value="Entrar">
+			</div>
+			<!-- /.fiel -->
+
+			<div class="two fields">
+				<div class="field">
+					<a href="" class="ui fluid teal button">Perdi o usuário / senha</a>
+				</div>
+				<!-- /.field -->
+				<div class="field">
+					<a href="" class="ui fluid blue button"><i class="add user icon"></i> Fazer o cadastro</a>
+				</div>
+				<!-- /.field -->
+			</div>
+			<!-- /.two fields -->
+		</form>
+	</div>
+	<!-- /.main container -->	
 <% include ../includes/footer.ejs %>
