@@ -24,10 +24,14 @@ module.exports = function(express, app, User, jwt){
 
 				var msgErro = [];
 
+				console.log(err);
+
 				if (err.name == 'ValidationError'){
 
 					for(x in err.errors){
 
+						
+						//ValidatorError
 						msgErro.push( err.errors[x].path + " " + err.errors[x].value + " já existe!" ); 
 
 					}

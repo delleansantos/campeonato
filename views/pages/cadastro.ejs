@@ -1,20 +1,20 @@
 <% include ../includes/header.ejs %>
 
-
-	<%if (erros.length > 0) { %>
-		
-		<div data-alert class="alert-box secondary">
-		
-			<% for(var i=0; i<erros.length; i++) {%>
-			   <p><%= erros[i] %></p>
-			<% } %>
-
-		  <a href="#" class="close">&times;</a>
-		</div>
-
-	<% } %>
-
 	<div class="main container-cadastro">
+		
+		<%if (erros.length > 0) { %>
+			
+			<div class="ui error message">
+				<div class="header">Existem Alguns mas pendências</div>
+				<ul class="list">
+				<% for(var i=0; i<erros.length; i++) {%>
+				   <li><%= erros[i] %></li>
+				<% } %>
+				</ul>
+			</div>
+
+		<% } %>
+
 		<form action="/api/cadastro" class="ui form" method="POST">
 			<div class="two fields">
 				<div class="field">
@@ -68,14 +68,21 @@
 				<!-- /.field -->
 			</div>
 			<!-- /.two fields -->
+			
+			<div class="inline field">
+				 <div class="ui toggle checkbox">
+			      <input type="checkbox" name="hot-deals">
+			      <label>Concordo com os <a href="#">Termos do serviço</a>.</label>
+			    </div>
+			</div>
 
 			<div class="field">
 				<input type="submit" class="ui fluid blue button" value="Cadastrar">
 			</div><!--.field-->
-
+			
 		</form>
 	</div>
 	<!-- /.main container-cadastro -->
 
-	
+	<script src="/js/cadastro.js"></script>
 <% include ../includes/footer.ejs %>
