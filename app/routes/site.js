@@ -1,23 +1,23 @@
+
+
 module.exports = function(express){
 
 	var siteApi = express.Router();
 
-	siteApi.get('/cadastro',function(req, res) {
-
-		res.render('pages/cadastro',{ erros:[]});
-
-	});
-
-	siteApi.get('/login',function(req, res){
-
+	siteApi.get('/login',function (req, res) {
 		res.render('pages/login');
-
 	});
 
-	siteApi.get('/profile',function(req, res){
+	siteApi.get('/cadastro',function (req, res) {
+		res.render('pages/cadastro');
+	});
 
-		res.render('pages/profile');
+	siteApi.get('/primeiro-passo',function (req, res) {
+		res.render('pages/primeiro-game');
+	});
 
+	siteApi.get('*',function (req, res) {
+		res.render('pages/404');
 	});
 
 	return siteApi;

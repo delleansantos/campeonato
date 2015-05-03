@@ -1,19 +1,6 @@
 <% include ../includes/header.ejs %>
 
 	<div class="main container-cadastro">
-		
-		<%if (erros.length > 0) { %>
-			
-			<div class="ui error message">
-				<div class="header">Existem Alguns mas pendências</div>
-				<ul class="list">
-				<% for(var i=0; i<erros.length; i++) {%>
-				   <li><%= erros[i] %></li>
-				<% } %>
-				</ul>
-			</div>
-
-		<% } %>
 
 		<form action="/api/cadastro" class="ui form" method="POST">
 			<div class="two fields">

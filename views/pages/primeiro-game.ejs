@@ -1,5 +1,147 @@
 <% include ../includes/header.ejs %>
 
-	teste
+	<div class="container offset-menu">
+		<h1 class="ui header">
+	      <i class="game icon"></i>
+	      <div class="content">
+	        Escolha seu primeiro game
+	        <div class="sub header">Para participar dos campeonatos, cadastre os dados abaixo</div>
+	      </div>
+    	</h1>
+		
+		<p>Cadastre as rotas e os heróis que você costuma jogar </p>
 
+    	<form action="" class="ui form" ng-app="leagueInfo">
+    		<div ng-controller="cadastro as cdCtrl">
+
+				<h4 class="iu dividing header">Dados da conta no league of legends</h4>
+				<div class="field">
+					<label for="">Invocador ( summoner )</label>
+					<input type="text" name="" placeholder="Nome do invocador">
+				</div>
+				<!-- /.field -->
+
+    			<h4 class="ui dividing header">Rotas</h4>
+    			<div class="field">
+    				<label for="">Selecione uma rota</label>
+    				<dropdown title="selecione uma" ng-model="cdCtrl.tempRota" open="false">
+					    <dropdown-group title="rota" ng-repeat="rota in cdCtrl.rotas">{{ rota }}</dropdown-group>
+					</dropdown>
+    			</div>
+    			<!-- /.field -->
+    			<div class="field">
+    				<label for="">Escolha um hero essa rota</label>
+    				<dropdown title="selecione um herói" ng-model="cdCtrl.tempHero" open="false">
+					    <dropdown-group title="hero.name" ng-repeat="hero in cdCtrl.heros.data">{{ hero.name }}</dropdown-group>
+					</dropdown>
+    			</div>
+    			<!-- /.field -->
+				
+		      <div class="field">
+		        <div class="ui radio checkbox">
+		          <input type="radio" name="" checked="">
+		          <label>Iniciante</label>
+		        </div>
+		       </div>
+
+			<div class="field">
+
+		        <div class="ui radio checkbox">
+		          <input type="radio" name="" checked="">
+		          <label>Intermediário</label>
+		        </div>
+		    </div>
+		    
+			<div class="field">
+		        <div class="ui radio checkbox">
+		          <input type="radio" name="" checked="">
+		          <label>Avançado</label>
+		        </div>
+		      </div><!-- field-->
+				
+				<div class="field ui three cards">
+					
+					<div ng-repeat="rota in cdCtrl.user.rotas" class="card">
+						<div class="image">
+							<img src="{{ cdCtrl.getHeroSrc(rota.hero); }}" alt="">
+						</div>
+						<div class="content">
+							<h3 class="header">{{ rota.hero }}</h3>
+							<div class="meta"><span class="date">{{ rota.rota }}</span></div>
+						</div>
+						<!-- /.content -->
+						<div class="ui bottom attached red button" ng-click="cdCtrl.removeHeroFromRota($index);">
+								<i class="remove icon"></i>
+								Remover
+						</div>
+					</div>
+					<!-- /.ui card -->
+
+				</div>
+				<!-- /.ui cards -->
+
+
+
+    			<button class="ui button" type="button" ng-click="cdCtrl.salvarRota();">Salvar Rota</button>
+    		</div>
+    		
+    	</form>
+    	<!-- /.ui form -->
+	</div>
+	<!-- /.container -->
+	<script src="/js/angular.min.js"></script>
+	<script src="/js/angular-semantic-ui.min.js"></script>
+	<script>
+		var app = angular.module('leagueInfo',['angularify.semantic.dropdown']);
+
+		app.controller('cadastro',['$http',function($http){
+
+			ctrl 			= this;
+			this.apiKey 	= '87f3bc92-3118-43de-97ee-9ea3c1007b7d';
+			this.api 		= { getChamp: 'https://global.api.pvp.net/api/lol/static-data/br/v1.2/champion?champData=image,info', heroImgPath: 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' };
+			this.heros 		=	[];
+			this.rotas 		= 	[ 'Top', 'Mid', 'Jungle', 'Bot' ];
+
+			this.user = { rotas: [] };
+
+			$http.get(this.api.getChamp +'&api_key='+this.apiKey ).success(function(data){
+
+				ctrl.heros = data;
+
+			});
+
+			//Funções
+			this.salvarRota = function(){
+
+				this.user.rotas.push({ hero: this.tempHero, rota: this.tempRota });
+
+			}
+
+			this.getHeroSrc = function(nome){
+
+				var retorno;
+
+				angular.forEach(ctrl.heros.data,function(hero){
+
+					if (hero.name == nome){
+
+						retorno = ctrl.api.heroImgPath + hero.image.full;
+					};
+		
+				})
+
+				return retorno;
+
+			}
+
+			this.removeHeroFromRota = function(indice){
+
+				this.user.rotas.splice(indice,1);
+
+			}
+
+
+		}])
+
+	</script>
 <% include ../includes/footer.ejs %>
