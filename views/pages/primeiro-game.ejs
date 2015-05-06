@@ -8,62 +8,50 @@
 	        <div class="sub header">Para participar dos campeonatos, cadastre os dados abaixo</div>
 	      </div>
     	</h1>
-		
-		<p>Cadastre as rotas e os heróis que você costuma jogar </p>
 
-    	<form action="" class="ui form" ng-app="leagueInfo">
+    	<form action="" class="ui segment form" ng-app="leagueInfo">
     		<div ng-controller="cadastro as cdCtrl">
 
 				<h4 class="iu dividing header">Dados da conta no league of legends</h4>
 				<div class="field">
 					<label for="">Invocador ( summoner )</label>
-					<input type="text" name="" placeholder="Nome do invocador">
+					<div class="ui action input">
+						<input type="text" name="" ng-model="cdCtrl.summonerName" placeholder="Nome do invocador">
+						<button type="button" class="ui teal button" ng-click="cdCtrl.getSummonerInfo();">Verificar</button>
+					</div>
+					<!-- /.ui action input -->
+					
 				</div>
 				<!-- /.field -->
 
-    			<h4 class="ui dividing header">Rotas</h4>
-    			<div class="field">
-    				<label for="">Selecione uma rota</label>
-    				<dropdown title="selecione uma" ng-model="cdCtrl.tempRota" open="false">
-					    <dropdown-group title="rota" ng-repeat="rota in cdCtrl.rotas">{{ rota }}</dropdown-group>
-					</dropdown>
-    			</div>
-    			<!-- /.field -->
-    			<div class="field">
-    				<label for="">Escolha um hero essa rota</label>
-    				<dropdown title="selecione um herói" ng-model="cdCtrl.tempHero" open="false">
-					    <dropdown-group title="hero.name" ng-repeat="hero in cdCtrl.heros.data">{{ hero.name }}</dropdown-group>
-					</dropdown>
-    			</div>
-    			<!-- /.field -->
-				
-		      <div class="field">
-		        <div class="ui radio checkbox">
-		          <input type="radio" name="" checked="">
-		          <label>Iniciante</label>
-		        </div>
-		       </div>
+				<span  ng-repeat="summoner in cdCtrl.summoner">Nome: {{ summoner.name }}   Elo: {{ cdCtrl.summonerElo }}</span>
 
-			<div class="field">
+    			<h4 class="ui dividing header">Rotas que você costuma jogar</h4>
 
-		        <div class="ui radio checkbox">
-		          <input type="radio" name="" checked="">
-		          <label>Intermediário</label>
-		        </div>
-		    </div>
-		    
-			<div class="field">
-		        <div class="ui radio checkbox">
-		          <input type="radio" name="" checked="">
-		          <label>Avançado</label>
-		        </div>
-		      </div><!-- field-->
-				
-				<div class="field ui three cards">
+				<div class="two fields">
+					<div class="field">
+	    				<label for="">Selecione uma rota</label>
+	    				<dropdown title="selecione uma" ng-model="cdCtrl.tempRota" open="false">
+						    <dropdown-group title="rota" ng-repeat="rota in cdCtrl.rotas">{{ rota }}</dropdown-group>
+						</dropdown>
+	    			</div>
+	    			<!-- /.field -->
+	    			<div class="field">
+	    				<label for="">Escolha um hero essa rota</label>
+	    				<dropdown title="selecione um herói" ng-model="cdCtrl.tempHero" open="false">
+						    <dropdown-group title="hero.name" ng-repeat="hero in cdCtrl.heros.data">{{ hero.name }}</dropdown-group>
+						</dropdown>
+	    			</div>
+	    			<!-- /.field -->
+				</div>
+				<!-- /.two fields -->
+
+
+				<div class="field ui six cards">
 					
 					<div ng-repeat="rota in cdCtrl.user.rotas" class="card">
 						<div class="image">
-							<img src="{{ cdCtrl.getHeroSrc(rota.hero); }}" alt="">
+							<img ng-src="{{ cdCtrl.getHeroSrc(rota.hero); }}" alt="">
 						</div>
 						<div class="content">
 							<h3 class="header">{{ rota.hero }}</h3>
@@ -79,10 +67,10 @@
 
 				</div>
 				<!-- /.ui cards -->
+				<div class="ui divider"></div>
+				<button class="ui right floated primary button" type="button" ng-click="cdCtrl.salvarRota();"><i class="save icon"></i>Salvar</button>
 
-
-
-    			<button class="ui button" type="button" ng-click="cdCtrl.salvarRota();">Salvar Rota</button>
+    			
     		</div>
     		
     	</form>
@@ -98,11 +86,20 @@
 
 			ctrl 			= this;
 			this.apiKey 	= '87f3bc92-3118-43de-97ee-9ea3c1007b7d';
-			this.api 		= { getChamp: 'https://global.api.pvp.net/api/lol/static-data/br/v1.2/champion?champData=image,info', heroImgPath: 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/' };
+			this.api 		= { 
+								getChamp: 'https://global.api.pvp.net/api/lol/static-data/br/v1.2/champion?champData=image,info',
+								getSummoner: 'https://br.api.pvp.net/api/lol/br/v1.4/summoner/by-name/',
+								heroImgPath: 'http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/',
+							};
+
 			this.heros 		=	[];
 			this.rotas 		= 	[ 'Top', 'Mid', 'Jungle', 'Bot' ];
+			this.niveis 	= 	[ 'Iniciante', 'Avançado', 'Intermediário' ];
 
 			this.user = { rotas: [] };
+
+			this.summoner 		= {};
+			this.summonerElo 	= '';
 
 			$http.get(this.api.getChamp +'&api_key='+this.apiKey ).success(function(data){
 
@@ -140,6 +137,31 @@
 
 			}
 
+			this.getSummonerInfo = function(){
+
+				$http.get(this.api.getSummoner + this.summonerName +'?api_key='+this.apiKey ).success(function(data){
+
+					ctrl.summoner = data;
+
+					var summId = null;
+
+					for(x in ctrl.summoner){
+
+						summId = ctrl.summoner[x].id;
+
+					}
+
+					$http.get('https://br.api.pvp.net/api/lol/br/v2.5/league/by-summoner/' + summId +'?api_key='+ctrl.apiKey ).success(function(data){
+
+							ctrl.summonerElo = data[summId][0].tier;
+
+					});
+
+
+				});
+
+
+			}
 
 		}])
 
