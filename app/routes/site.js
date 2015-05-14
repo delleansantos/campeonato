@@ -16,6 +16,10 @@ module.exports = function(express){
 		res.render('pages/primeiro-game');
 	});
 
+	siteApi.get('/inicio',function (req, res) {
+		res.render('pages/inicio');
+	});
+
 	siteApi.get('*',function (req, res) {
 		res.render('pages/404');
 	});

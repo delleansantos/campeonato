@@ -109,7 +109,7 @@ module.exports = function(express, app, User, jwt){
 				        });*/
 
 
-			    		res.render('pages/profile',{ token: token, user: user});
+			    		res.render('pages/inicio',{ token: token, user: user});
 
 				      } 
 
