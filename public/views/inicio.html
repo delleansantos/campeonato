@@ -1,0 +1,96 @@
+<div ui-view="menu-top" class="ui fixed secondary pointing menu"></div>
+<div class="container-geral offset-menu">
+		<div class="ui segment">
+			<div class="ui right attached rail">
+				<div class="ui items profile-rail">
+					<div class="item">
+						<a href="" class="ui tiny image"><img src="/img/jenny.jpg" alt=""></a>
+						<div class="middle aligned content">
+							<div class="header">{{ initCtrl.user.name }}</div>
+							<!-- /.header -->
+							<div class="description"><a href="" class="ui primary button">Editar perfil</a></div>
+							<!-- /.description -->
+						</div>
+						<!-- /.middle aligned content -->
+					</div>
+					<!-- /.item -->
+				</div>
+				<!-- /.ui items -->
+			</div><!-- /.ui rail -->
+
+			<div ng-if="!user.games.leagueOfLegends.rotas.length">
+				<h2 class="ui header">
+			      <i class="game icon"></i>
+			      <div class="content">
+			        Você ainda não tem heróis cadastrado
+			      </div>
+			    </h2>
+				
+				<form action="" class="ui segment form" ng-app="leagueInfo">
+
+						<h4 class="iu dividing header">Dados da conta no league of legends</h4>
+						<div class="field">
+							<label for="">Invocador ( summoner )</label>
+							<div class="ui action input">
+								<input type="text" name="" ng-model="initCtrl.league.summonerName" placeholder="Nome do invocador">
+								<button type="button" class="ui teal button" ng-click="initCtrl.league.getSummonerInfo();">Verificar</button>
+							</div>
+							<!-- /.ui action input -->
+							
+						</div>
+						<!-- /.field -->
+						<span  ng-repeat="summoner in initCtrl.league.summoner">Invocador confirmado: <strong>{{ summoner.name }}</strong></span>
+
+		    			<h4 class="ui dividing header">Rotas que você costuma jogar</h4>
+
+						<div class="two fields">
+							<div class="field">
+			    				<label for="">Selecione uma rota</label>
+			    				<select name="" ng-options="rota for rota in initCtrl.league.rotas" ng-model="initCtrl.league.summonerLane" id="">
+			    					<option value="">Selecione uma rota</option>
+			    				</select>
+			    			</div>
+			    			<!-- /.field -->
+			    			<div class="field">
+			    				<label for="">Escolha um hero essa rota</label>
+			    				<select name="" ng-options="hero.name for (key, hero) in initCtrl.heros.data" ng-model="initCtrl.league.summonerHero" id="">
+			    					<option value="">Selecione um Herói</option>
+			    				</select>
+			    			</div>
+			    			<!-- /.field -->
+						</div>
+						<!-- /.two fields -->
+
+
+						<div class="field ui six cards">
+							
+							<div ng-repeat="rota in initCtrl.user.rotas" class="card">
+								<div class="image">
+									<img ng-src="{{ initCtrl.getHeroSrc(rota.hero); }}" alt="">
+								</div>
+								<div class="content">
+									<h3 class="header">{{ rota.hero }}</h3>
+									<div class="meta"><span class="date">{{ rota.rota }}</span></div>
+								</div>
+								<!-- /.content -->
+								<div class="ui bottom attached red button" ng-click="initCtrl.removeHeroFromRota($index);">
+										<i class="remove icon"></i>
+										Remover
+								</div>
+							</div>
+							<!-- /.ui card -->
+
+						</div>
+						<!-- /.ui cards -->
+						<div class="ui divider"></div>
+						<button class="ui right floated primary button" type="button" ng-click="initCtrl.salvarRota();">Adicionar hero</button>
+		    		
+		    	</form>
+		    	<!-- /.ui form -->
+
+			</div>
+
+		</div>
+		<!-- /.ui segment -->
+	</div>
+	<!-- /.container segment -->

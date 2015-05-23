@@ -1,10 +1,19 @@
+var Irelia = require('irelia');
+var irelia = new Irelia({
+    secure: true,
+    host: 'br.api.pvp.net',
+    path: '/api/lol/',
+    key: '87f3bc92-3118-43de-97ee-9ea3c1007b7d',
+    debug: true
+});
+
 module.exports = function(express, app, User, jwt){
 
 	var apiRoutes = express.Router();
 
 	// route to show a random message (GET http://localhost:8080/api/)
 	apiRoutes.get('/', function(req, res) {
-	  res.json({ message: 'Welcome to the coolest API on earth!' });
+	  res.json({ msg: 'Api rolando 100%!' });
 	});
 
 	apiRoutes.post('/cadastro', function(req, res) {
@@ -39,11 +48,11 @@ module.exports = function(express, app, User, jwt){
 				};
 
 				console.log(msgErro);
-				res.render('pages/cadastro',{ erros: msgErro });
+				res.json({  msg: msgErro, erro: true });
 
 			} else {
 
-				res.render('pages/login');
+				res.json({ msg: 'Cadastro realizado com sucesso!', erro: false });
 			};
 
 		})
@@ -70,7 +79,7 @@ module.exports = function(express, app, User, jwt){
 			    if (err) throw err;
 
 			    if (!user) {
-			      res.json({ success: false, message: 'Authentication failed. User not found.' });
+			      res.json({ erro: true, msg: 'Authentication failed. User not found.' });
 			    } else if (user) {
 
 
@@ -80,7 +89,7 @@ module.exports = function(express, app, User, jwt){
 
 			          // check if password matches
 				      if (!isMatch) {
-				        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+				        res.json({ erro: true, msg: 'Authentication failed. Wrong password.' });
 				      } else {
 
 				        // if user is found and password is right
@@ -102,14 +111,11 @@ module.exports = function(express, app, User, jwt){
 						})
 
 				        // return the information including token as JSON
-				       /* res.json({
-				          success: true,
-				          message: 'Enjoy your token!',
+				        res.json({
+				          erro: false,
+				          msg: 'Autenticação realizada com sucesso!',
 				          token: token
-				        });*/
-
-
-			    		res.render('pages/inicio',{ token: token, user: user});
+				        });
 
 				      } 
 
@@ -123,7 +129,7 @@ module.exports = function(express, app, User, jwt){
 
 		} else {
 
-			res.json({ success: false, message: 'authenticate Fail' });
+			res.json({ erro: true, msg: 'authenticate Fail' });
 
 		};
 
@@ -134,7 +140,7 @@ module.exports = function(express, app, User, jwt){
 	apiRoutes.use(function(req, res, next) {
 
 	  // check header or url parameters or post parameters for token
-	  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+	  var token = req.body.token || req.params.token ||req.query.token || req.headers['x-access-token'];
 
 	  // decode token
 	  if (token) {
@@ -153,19 +159,25 @@ module.exports = function(express, app, User, jwt){
 
 		    	 	if (err) throw err;
 
+
 		    	 	if (user){
 
 		    	 		if (user.lastToken === token) {
 
 		    	 			req.decoded = decoded;
 
-		    	 			 next();
+		    	 			next();
 
 		    	 		} else {
+
 
 		    	 			return res.json({ success: false, message: 'Failed to authenticate token. Token zuado!' });
 
 		    	 		};
+
+		    	 	} else {
+
+		    	 		return res.json({ erro: true, msg: 'Usuário não encontrado!' });
 
 		    	 	};
 
@@ -193,10 +205,36 @@ module.exports = function(express, app, User, jwt){
 
 
 	// route to return all users (GET http://localhost:8080/api/users)
-	apiRoutes.get('/users', function(req, res) {
-	  User.find({}, function(err, users) {
-	    res.json(users);
-	  });
+	apiRoutes.get('/user', function(req, res) {
+	 	User.findOne({ name: req.decoded.name }, function(err, user) {
+	 			if (err) throw err;
+
+	 		res.json(user);
+	 	});
+	});
+
+	apiRoutes.get('/summoner/:name', function(req, res) {
+	  	
+		irelia.getSummonerByName('br', req.params.name, function (err, data){
+		    
+		    if (err) throw err;
+
+		    res.json(data);
+
+		});
+
+	});
+
+	apiRoutes.get('/champs', function(req, res) {
+	  	
+		irelia.getChampionsData('5.2.1', 'pt_BR',function (err, data){
+		    
+		    if (err) throw err;
+
+		    res.json(data);
+
+		});
+
 	});
 
 

@@ -1,0 +1,64 @@
+<div ui-view="menu-top" class="ui fixed secondary pointing menu"></div>
+<div class="container-geral offset-menu">
+
+		<div class="ui segment">
+			
+			<h2 class="ui header">
+		      <i class="settings icon"></i>
+		      <div class="content">
+		        Configurações da Conta
+		        <div class="sub header">Gerencie suas preferências</div>
+		      </div>
+	    	</h2>
+
+			<form class="ui form" novalidate>
+				<h4 class="ui dividing header">Informações Pessoais</h4>
+				<div class="two fields">
+					<div class="field"><label for="">Nome:</label><input type="text" ng-model="initCtrl.user.name" placeholder=""></div>
+					<!-- /.field -->
+					<div class="field"><label for="">Nick:</label><input type="text" ng-model="initCtrl.user.nick" placeholder=""></div>
+					<!-- /.field -->
+				</div>
+				<!-- /.two fields -->
+
+				<div class="two fields">
+					<div class="field">
+						<!--<label for="">Email:</label><input type="text" placeholder="<%= user.email %>">-->
+					</div><!-- /.field -->
+					<div class="field">
+					<label for="">Gênero:</label>
+				     <select name="genero" class="dropdown" ng-model="initCtrl.user.genero" id="">
+				     	<option value="">Gênero</option>
+				     	<option value="masculino">Masculino</option>
+				     	<option value="feminino">Feminino</option>
+				     </select>
+				    </div><!-- /.field -->
+				    
+				</div>
+				<!-- /.two fields -->
+
+				<h4 class="ui dividing header">Informações da conta</h4>
+
+				<div class="field">
+						<label for="">Email:</label>
+						<div class="ui icon input">
+							<input type="text" name="email" ng-model="initCtrl.user.email" placeholder="">
+							<i class="mail outline icon"></i>
+						</div>
+						<!-- /.ui icon input -->
+				</div><!-- /.field -->
+				<div class="field">
+						<label for="">Senha:</label>
+						<div class="ui icon input"><input type="password" name="password"><i class="lock icon"></i></div>
+						<!-- /.icon input -->
+				</div><!-- /.field -->
+
+				<div class="field"><button type="button" class="ui primary right floated button">Salvar</button></div>
+				<!-- /.field -->
+			</form>
+
+		</div>
+		<!-- /.iu segment -->
+
+	</div>
+	<!-- /.container-geral -->

@@ -1,0 +1,70 @@
+<div class="main container-cadastro">
+
+		<form action="/cadastro" class="ui segment form" method="POST">
+			<div class="two fields">
+				<div class="field">
+					<label for="">Nome:</label>
+					<input type="text" name="nome" ng-model="cadCtrl.user.nome" placeholder="seu nome completo">
+				</div><!-- .field -->
+				<div class="field">
+					<label for="">Nick:</label>
+					<div class="ui icon input">
+						<input type="text" name="nick" ng-model="cadCtrl.user.nick" placeholder="Nick / Usuário">
+						<i class="user icon"></i>
+					</div>
+					<!-- /.ui icon input -->
+				</div><!-- .field -->
+			</div><!-- .two fields -->
+
+			<div class="two fields">
+				<div class="field">
+					<label for="">Email:</label>
+					<div class="ui icon input">
+						<input type="text" name="email" ng-model="cadCtrl.user.email" placeholder="exemplo@email.com">
+						<i class="mail outline icon"></i>
+					</div>
+					<!-- /.ui icon input -->
+				</div>
+				<!-- /.field -->
+				<div class="field">
+					<label for="">Repita o email:</label>
+					<div class="ui icon input">
+						<input type="text" name="email-repetido" placeholder="exemplo@email.com">
+						<i class="mail outline icon"></i>
+					</div>
+					<!-- /.ui icon input -->
+				</div>
+				<!-- /.field -->
+			</div>
+			<!-- /.two fields -->
+
+			<div class="two fields">
+				<div class="field">
+					<label for="">Senha:</label>
+					<div class="ui icon input"><input type="password" ng-model="cadCtrl.user.password" name="password"><i class="lock icon"></i></div>
+					<!-- /.icon input -->
+				</div>
+				<!-- /.field -->
+				<div class="field">
+					<label for="">Repita a senha:</label>
+					<div class="ui icon input"><input type="password" name="password-repetido"><i class="lock icon"></i></div>
+					<!-- /.icon input -->
+				</div>
+				<!-- /.field -->
+			</div>
+			<!-- /.two fields -->
+			
+			<div class="inline field">
+				 <div class="ui toggle checkbox">
+			      <input type="checkbox" name="hot-deals">
+			      <label>Concordo com os <a href="#">Termos do serviço</a>.</label>
+			    </div>
+			</div>
+
+			<div class="field">
+				<button type="button" class="ui fluid blue button" ng-click="cadCtrl.cadastrar()">Cadastrar</button>
+			</div><!--.field-->
+			
+		</form>
+	</div>
+	<!-- /.main container-cadastro -->

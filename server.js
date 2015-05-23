@@ -27,9 +27,15 @@ app.use(bodyParser.json());
 //LOGAR OS REQUESTS NO CONSOLE
 app.use(morgan('dev'));
 
+/*
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});*/
 
 app.use('/api', apiRoutes);
-app.use('/site', apiSite);
+app.use('/', apiSite);
 
 app.listen(port);
 console.log('Server rodando -> http://localhost:' + port);

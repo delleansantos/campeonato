@@ -12,7 +12,13 @@ var UsuarioSchema = new Schema({
     email: { type: String, required: true, unique: true },
     genero: { type: String, default: '' },
     avatar: { type: String, default: '' },
-    //games: {},
+    games: {
+
+        leagueOfLegends:{
+            rotas: [{posicao: { type: String, required: true  }, heros: [{ type: String, required: true  }]}]
+        }
+
+    },
     //rotas: [{posicao: { type: String, required: true  }, heros: [String]}],
     //equipe: [{ nome: { type: String, required: true  }, adm: Boolean  }],
     password: { type: String, required: true }, 
